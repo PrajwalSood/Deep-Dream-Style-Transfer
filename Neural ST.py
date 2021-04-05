@@ -22,13 +22,20 @@ import PIL.Image
 import time
 import functools
 
-def tensor_to_image(tensor):
-  tensor = tensor*255
-  tensor = np.array(tensor, dtype=np.uint8)
-  if np.ndim(tensor)>3:
-    assert tensor.shape[0] == 1
-    tensor = tensor[0]
-  return PIL.Image.fromarray(tensor)
+from utils import *
+    
+image_path = 'img.jpg'
+style_path = 'Style.jpg'
 
-image_path = ''
-style_path = ''
+
+content_image = load_img(image_path)
+style_image = load_img(style_path)
+
+
+import tensorflow_hub as hub
+hub_model = hub.load('https://tfhub.dev/google/magenta/arbitrary-image-stylization-v1-256/2')
+stylized_image = hub_model(tf.constant(content_image), tf.constant(style_image))[0]
+img = tensor_to_image(stylized_image)
+img.save('Styled.jpg')
+
+
