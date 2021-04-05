@@ -36,6 +36,6 @@ import tensorflow_hub as hub
 hub_model = hub.load('https://tfhub.dev/google/magenta/arbitrary-image-stylization-v1-256/2')
 stylized_image = hub_model(tf.constant(content_image), tf.constant(style_image))[0]
 img = tensor_to_image(stylized_image)
-img.save('Styled.jpg')
+img.save('examples/Styled.jpg')
 
 
